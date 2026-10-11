@@ -1,0 +1,11 @@
+{
+  "note": "个人档案：MCP 接口拿不到生日等个人信息，由用户手动录入；addressId 来自 delivery-query-addresses / delivery-create-address",
+  "nickname": "",
+  "birthday": "",
+  "commute": {
+    "leaveTime": "",
+    "companyAddressId": "",
+    "homeAddressId": ""
+  },
+  "kids": []
+}
