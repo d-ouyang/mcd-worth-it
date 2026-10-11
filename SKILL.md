@@ -51,7 +51,7 @@ description: 麦麦值不值——只算值不值的麦当劳权益精算 Skill�
 7. **履约：自取与外送双方案并行**。不猜用户的履约偏好——只要用户没有明确指定，**两种方案都给账**，让用户选：
    - **到店自取**：`create-order(orderType=1)`；想零等待用**预约自取**（`reservationDate="yyyy-MM-dd HH:mm"`，结合 `profile.json` 的通勤时间建议时段，门店 `reservationTimeOptions` 决定可约窗口，早餐档 06:14~10:15）。
    - **麦乐送到公司/家**：`delivery-query-addresses` 取 `profile.json` 绑定的 addressId（没有则引导 `delivery-create-address` 建一次，之后复用）→ `delivery-query-stores(addressId, beType=2)` → `query-meals(orderType=2, beCode=...)` → `create-order(orderType=2)`。
-   - ⚠️ **外送菜单与到店菜单是两套**：卡价商品（早餐卡优惠/麦金卡优惠）在外送是否可售、价格是否一致，必须用 `query-meals(orderType=2)` 实时确认，不得假设。下单前把"自取实付 vs 外送实付（含配送费/打包费）"两列账摆出来，卡价省的钱要减去履约成本再谈值不值。
+   - ⚠️ **外送菜单与到店菜单是两套**，实测结论（2026-10-11，上海良华购物中心店）：**麦金卡随单购支持外送**（外送菜单有"麦金卡专享"分类，9 个"麦金卡免配"单人餐/分享餐均为 `随单购麦金卡优惠`）；**早餐卡价商品未在外送菜单出现**（同款咖啡外送走"促销优惠" ¥11.9 而非卡价 ¥9.9），早餐档外送是否有卡价商品待实测；外送价可能高于到店价（同款芝士条 ¥11.9 vs 到店 ¥11）。规则不变：外送可售性与价格一律 `query-meals(orderType=2)` 实时确认，下单前把"自取实付 vs 外送实付（含配送费/打包费）"两列账摆出来，卡价省的钱要减去履约成本再谈值不值。
 
 ---
 

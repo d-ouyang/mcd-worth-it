@@ -1,8 +1,0 @@
-{
-  "note": "履约档案：通勤时间与配送地址。addressId 来自 delivery-query-addresses / delivery-create-address，建一次永久复用",
-  "commute": {
-    "leaveTime": "",
-    "companyAddressId": "",
-    "homeAddressId": ""
-  }
-}

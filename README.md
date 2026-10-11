@@ -125,7 +125,7 @@ flowchart TD
   }
 }
 ```
-2. 把本仓库放入你的 AI 客户端工作目录，加载 [SKILL.md](SKILL.md)
+2. 把本仓库放入你的 AI 客户端工作目录，加载 [SKILL.md](SKILL.md)；`cp data/profile.example.json data/profile.json` 填入通勤时间（可选，用于预约自取与外送）
 3. 第一句话随便挑一句："中午吃啥" / "麦金卡值不值" / "孩子生日会怎么办"
 
 ## 目标用户

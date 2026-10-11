@@ -1,4 +1,0 @@
-{
-  "note": "展示层账本：monthlySaved 由 memory.json 的 orders 派生（当月 saved 求和），可随时重算，不独立维护",
-  "monthlySaved": { "2026-10": 0 }
-}

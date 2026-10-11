@@ -1,3 +1,7 @@
-.env
 *.log
 .DS_Store
+.env
+data/cards.json
+data/ledger.json
+data/memory.json
+data/profile.json
