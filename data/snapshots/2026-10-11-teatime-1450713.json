@@ -1,0 +1,20 @@
+{
+  "snapshotTime": "2026-10-11 15:03",
+  "slot": "下午茶(14:44-16:45)",
+  "storeCode": "1450713",
+  "storeName": "麦当劳上海黄浦华旭国际大厦餐厅",
+  "source": "mcd-mcp query-meals + calculate-price 实时核价",
+  "cart": {
+    "items": [
+      { "productCode": "521986", "name": "马苏里拉拉丝芝士条", "discountType": "促销优惠", "originalPrice": 15.0, "paid": 11.0 },
+      { "productCode": "507411", "name": "麦咖啡™冰美式中杯", "discountType": "早餐卡优惠", "originalPrice": 19.0, "paid": 9.9 }
+    ],
+    "originalTotal": 34.0,
+    "paidTotal": 20.9,
+    "saved": 13.1
+  },
+  "notes": [
+    "早餐卡价（咖啡 ¥9.9）在下午茶档仍生效，验证跨档",
+    "多商品合并核价可用，discount=1310 分与逐项一致"
+  ]
+}
