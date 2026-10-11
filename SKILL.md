@@ -20,7 +20,7 @@ description: 麦麦值不值——只算值不值的麦当劳权益精算 Skill�
 用户说"中午吃啥 / 来点麦当劳 / 帮我看看"后，依次执行：
 
 1. **档口感知**
-   - `now-time-info` 获取服务器时间；`query-nearby-stores(beType=1, searchType=2)` 定门店（优先 `data/ledger.json` 的常点门店，无则按用户位置搜）。
+   - `now-time-info` 获取服务器时间；`query-nearby-stores(beType=1, searchType=2)` 定门店（优先 `data/memory.json` 的 favoriteStores，无则按用户位置搜）。
    - 档口从门店 `reservationTimeOptions` 读取。实测口径（因门店而异，以实时返回为准）：早餐约 06:14~10:15（另有 06:44 / 07:14 起的门店）、午餐 10:44~14:15、下午茶 14:44~16:45、夜市 17:14~21:45、宵夜 22:14~23:59（24h 店另有 00:00~04:45）。
    - **报出当前档口与剩余时间。早餐档剩余不足 30 分钟时，先提醒截止再谈推荐。**
 
@@ -44,7 +44,7 @@ description: 麦麦值不值——只算值不值的麦当劳权益精算 Skill�
 ⏰ {档口}还剩 {n} 分钟（临截止时才出现）
 ```
 
-6. **记账**：用户确认下单（`create-order`）后，把 originalPrice / price / discount 追加进 `data/ledger.json`，月末汇总"本月已省"。
+6. **记账**：用户确认下单（`create-order`）后，把本单（含档口 slot、商品、originalPrice / price / discount）追加进 `data/memory.json` 的 orders，并重算 monthlySaved 与 tasteProfile。
 
 ---
 
@@ -64,7 +64,7 @@ description: 麦麦值不值——只算值不值的麦当劳权益精算 Skill�
 ```
 
 4. **实测锚点**（2026-10-11，价格随门店/时段浮动，必须实时重核）：麦金卡体验卡（15 天）¥9.9；巨无霸四件套 58.5→32.0，单笔省 26.5，**净省 16.6**。
-5. **历史维度**：`order-list` 取最近订单，按每单可省额度估算"过去 N 单本可省多少"。**订单不足 3 单时明说样本不足**，回退用 `frequent`（我的常点）估算。
+5. **历史维度**：优先用 `data/memory.json` 的本地订单（长期积累、远超 API）；本地不足时用 `order-list` 补充。按每单可省额度估算"过去 N 单本可省多少"。**样本不足 3 单时明说样本不足**，回退用 `frequent`（我的常点）估算。
 
 ### 卡状态纪律（不可违反）
 
@@ -91,23 +91,46 @@ description: 麦麦值不值——只算值不值的麦当劳权益精算 Skill�
 
 ---
 
-## 实付账本
+## 本地记忆库（长期偏好）
 
-`data/ledger.json` 是你的账本，结构：
+API 的 `order-list` 只返回近期订单（实测可能仅 1 单），**做不了长期记忆**。所以用户在麦麦的每一单都写入本地 `data/memory.json`，只增不删、越用越懂用户——这是偏好推荐的唯一数据底座。
 
 ```json
 {
-  "favoriteStore": { "storeCode": "", "storeName": "" },
+  "firstUse": "",
+  "favoriteStores": [{ "storeCode": "", "storeName": "" }],
   "orders": [
-    { "date": "", "orderId": "", "items": [], "originalPrice": 0, "paid": 0, "saved": 0, "discountType": "" }
+    {
+      "date": "", "orderId": "", "storeCode": "", "slot": "",
+      "items": [{ "code": "", "name": "", "qty": 1 }],
+      "originalPrice": 0, "paid": 0, "saved": 0, "discountType": ""
+    }
   ],
-  "monthlySaved": { "2026-10": 0 }
+  "tasteProfile": {
+    "clusters": { "beef": 0, "chicken": 0, "breakfast": 0, "coffee": 0 },
+    "avgSpend": null,
+    "favoriteSlot": null,
+    "recalculatedAt": null
+  }
 }
 ```
 
-- 每次真实下单后追加一条；`monthlySaved` 按月滚动清零。
-- 账本只增不删，绝不发给任何第三方接口。
-- `data/cards.json` 存用户手动录入的卡有效期：`{ "breakfastCardUntil": "", "goldCardUntil": "" }`。
+`data/ledger.json` 只放展示用的 `monthlySaved`（当月 `saved` 求和，**由 orders 派生、可随时重算**，不独立维护）。`data/cards.json` 存用户手动录入的卡有效期。
+
+### 写入规则
+
+1. **每次真实下单后追加一条** orders：数据来自 `create-order` 返回或 `order-list` / `query-order`；`slot` 记录当时档口（早餐/午餐/下午茶/夜市/宵夜）。
+2. **首次使用时**用 `order-list` 导入能取到的近期订单（能导多少导多少，并在回复中告知用户"API 只能取到最近 N 单，之后每单都会自动记账"）。
+3. **每积累 3 单重算 tasteProfile**：按主品类（牛肉/鸡肉/早餐/咖啡等）统计权重得 clusters，均值更新 avgSpend，最常出现的档口记为 favoriteSlot。
+4. `favoriteStores`：下单门店自动登记，去重。
+5. 记忆只增不删，绝不发给任何第三方接口。
+
+### 偏好推荐怎么用记忆库
+
+- "为什么是它"的理由优先从记忆库取材：**"你本月第 3 次点它"、"你常在早餐档点咖啡"、"你的口味在牛肉簇"**。
+- 唯一推荐的兜底顺序：记忆库高频组合 → `frequent` 常点 → 门店人气热卖。
+- 冷启动（orders < 3 条）：明说"记忆积累中，点满 3 单解锁完整偏好推荐"，此阶段用 `frequent` + 门店人气分类。
+- `order-list` 样本不足的问题只影响冷启动——随着本地积累，记忆库会很快超过 API 能提供的深度。
 
 ---
 

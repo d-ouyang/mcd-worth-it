@@ -1,5 +1,4 @@
 {
-  "favoriteStore": { "storeCode": "1450713", "storeName": "麦当劳上海黄浦华旭国际大厦餐厅" },
-  "orders": [],
+  "note": "展示层账本：monthlySaved 由 memory.json 的 orders 派生（当月 saved 求和），可随时重算，不独立维护",
   "monthlySaved": { "2026-10": 0 }
 }
