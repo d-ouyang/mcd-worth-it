@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<style>
+  :root{
+    --bg:#0D1117; --card:#161B22; --card2:#1C2230; --border:#30363D;
+    --text:#E6EDF3; --muted:#8B949E; --red:#FF5A4D; --gold:#FFC72C; --green:#3FB950;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--bg);}
+  body{font-family:"Arial Unicode MS","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    color:var(--text); width:1080px; margin:0 auto;}
+  .poster{padding:64px 60px 56px;}
+  /* HERO */
+  .hero{text-align:center; padding-bottom:40px; border-bottom:1px solid var(--border);}
+  .logo{font-size:72px; line-height:1;}
+  h1{font-size:60px; font-weight:800; margin-top:18px; letter-spacing:1px;}
+  h1 span{color:var(--gold); font-weight:700;}
+  .sub{color:var(--muted); font-size:26px; margin-top:10px; letter-spacing:.5px;}
+  .hook{margin-top:26px; font-size:30px; line-height:1.5; color:var(--text);}
+  .hook b{color:var(--red);}
+  /* NUMBERS */
+  .numbers{display:flex; gap:22px; margin-top:40px;}
+  .num{flex:1; background:var(--card); border:1px solid var(--border); border-radius:18px; padding:28px 20px; text-align:center;}
+  .num .big{font-size:46px; font-weight:800; color:var(--gold); line-height:1.1;}
+  .num .big.g{color:var(--green);}
+  .num .lbl{font-size:21px; color:var(--muted); margin-top:12px; line-height:1.4;}
+  /* SECTION TITLE */
+  .sec-title{font-size:30px; font-weight:800; margin:52px 0 24px; display:flex; align-items:center; gap:14px;}
+  .sec-title .bar{width:8px; height:34px; background:var(--red); border-radius:4px;}
+  /* THREE */
+  .three{display:flex; flex-direction:column; gap:18px;}
+  .t{display:flex; gap:20px; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:24px 26px; align-items:flex-start;}
+  .t .ic{font-size:42px; min-width:54px; text-align:center;}
+  .t .tt{font-size:27px; font-weight:700;}
+  .t .td{font-size:22px; color:var(--muted); margin-top:8px; line-height:1.5;}
+  .t .td b{color:var(--text);}
+  /* FLOW */
+  .flow{display:flex; flex-direction:column; gap:16px; margin-top:8px;}
+  .bub{max-width:82%; padding:20px 24px; border-radius:18px; font-size:23px; line-height:1.55;}
+  .bot{background:var(--card2); border:1px solid var(--border); align-self:flex-start; border-top-left-radius:4px;}
+  .bot .who{color:var(--red); font-weight:700; margin-right:8px;}
+  .bot .money{color:var(--gold); font-weight:800;}
+  .bot .ok{color:var(--green); font-weight:800;}
+  .usr{background:#243042; border:1px solid #2F4257; align-self:flex-end; border-top-right-radius:4px; color:var(--text);}
+  .usr .who{color:var(--gold); font-weight:700; margin-right:8px;}
+  /* TABLE */
+  .tbl{width:100%; border-collapse:collapse; margin-top:8px; font-size:22px;}
+  .tbl th{background:var(--card2); color:var(--muted); font-weight:700; text-align:left; padding:16px 18px; border-bottom:1px solid var(--border);}
+  .tbl td{padding:16px 18px; border-bottom:1px solid var(--border);}
+  .tbl .ori{color:var(--muted);}
+  .tbl .pay{color:var(--gold); font-weight:800;}
+  .tbl .save{color:var(--green); font-weight:800;}
+  .tbl tr td:first-child{color:var(--text); font-weight:600;}
+  /* FOOTER */
+  .foot{margin-top:52px; padding-top:32px; border-top:1px solid var(--border); text-align:center;}
+  .gh{font-size:28px; color:var(--gold); font-weight:800; letter-spacing:.5px;}
+  .gh span{color:var(--text);}
+  .tag{display:inline-block; margin-top:16px; font-size:20px; color:var(--muted); background:var(--card); border:1px solid var(--border); border-radius:999px; padding:8px 22px;}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <div class="hero">
+    <div class="logo">🧮</div>
+    <h1>麦麦值不值 <span>McWorth</span></h1>
+    <div class="sub">基于麦当劳 MCP 的权益精算 Skill</div>
+    <div class="hook">别浪费你在麦麦买过的权益 ——<br/>这顿、这张卡、这件大事，<b>值不值一笔账算清</b></div>
+  </div>
+
+  <div class="numbers">
+    <div class="num"><div class="big">¥16.1</div><div class="lbl">真实首单实付<br/>原价 ¥27 · 省 ¥10.9</div></div>
+    <div class="num"><div class="big g">净赚 ¥16.6</div><div class="lbl">麦金卡体验卡 ¥9.9<br/>当顿即回本</div></div>
+    <div class="num"><div class="big">280 城</div><div class="lbl">19 个派对主题<br/>全国门店覆盖</div></div>
+  </div>
+
+  <div class="sec-title"><span class="bar"></span>它替你算三件事</div>
+  <div class="three">
+    <div class="t"><div class="ic">🍔</div><div><div class="tt">① 这顿值不值 · 每天用</div><div class="td">档口 × 履约矩阵出方案：早餐卡专区、1+1 随心配、麦金卡专享、多人分享餐——<b>自提 / 外送各给账，每条带原价实付省额</b>。</div></div></div>
+    <div class="t"><div class="ic">💳</div><div><div class="tt">② 这张卡值不值 · 杀手锏</div><div class="td">办卡决策器：<b>花 ¥9.9 体验卡，这一单立刻省 ¥26.5，净赚 ¥16.6</b>。已持卡则报回本进度与剩余天数。</div></div></div>
+    <div class="t"><div class="ic">🎂</div><div><div class="tt">③ 这件大事值不值 · 低频高值</div><div class="td">主题派对 6 步链（城市→门店→日期→场次→一笔总账）+ 积分兑换性价比账。</div></div></div>
+  </div>
+
+  <div class="sec-title"><span class="bar"></span>真实闭环 · 不是演示（2026-10-12 真机）</div>
+  <div class="flow">
+    <div class="bub bot"><span class="who">🤖</span>双层原味板烧鸡腿麦满分套餐（你的常点）<br/>原价 <span class="money">¥27</span> → 卡价 <span class="money">¥16.1</span>，省 ¥10.9 ｜ 本月已省 ¥86.4<br/>回复「1」预约 07:40 自取</div>
+    <div class="bub usr"><span class="who">👤</span>1（方案 1 + 豆浆平换）</div>
+    <div class="bub bot"><span class="who">🤖</span>已预约 07:40 自取，实付 <span class="money">¥16.1</span>（卡价）</div>
+    <div class="bub bot"><span class="who">🤖</span><span class="ok">✅ 取餐码 35016 · 订单已完成</span></div>
+  </div>
+
+  <div class="sec-title"><span class="bar"></span>实测数据 · 全部来自核价接口</div>
+  <table class="tbl">
+    <thead><tr><th>场景</th><th>原价</th><th>实付</th><th>省</th></tr></thead>
+    <tbody>
+      <tr><td>早餐档 · 自提（双层板烧套餐）</td><td class="ori">¥27.0</td><td class="pay">¥16.1</td><td class="save">¥10.9</td></tr>
+      <tr><td>跨档 · 自提（麦咖啡冰美式·全天卡价）</td><td class="ori">¥19.0</td><td class="pay">¥9.9</td><td class="save">¥9.1</td></tr>
+      <tr><td>办卡 · 随单购（巨无霸四件套+麦金卡体验卡）</td><td class="ori">¥68.4</td><td class="pay">¥41.9</td><td class="save">¥26.5</td></tr>
+      <tr><td>外送 · 麦金卡专享（全明星双人分享餐）</td><td class="ori">¥115.5</td><td class="pay">¥54.9</td><td class="save">¥60.6</td></tr>
+      <tr><td>大事 · 主题派对（疯狂动物城 10 人）</td><td class="ori">—</td><td class="pay">¥580</td><td class="save">¥58/人</td></tr>
+      <tr><td>积分兑换（圆筒冰淇淋）</td><td class="ori">¥5.0</td><td class="pay">100 积分</td><td class="save">—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="foot">
+    <div class="gh">github.com/<span>d-ouyang/mcd-worth-it</span></div>
+    <div class="tag">麦当劳程序员创意开发大赛 · 参赛作品（非官方）</div>
+  </div>
+
+</div>
+</body>
+</html>
