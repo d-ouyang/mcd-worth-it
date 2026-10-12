@@ -119,11 +119,30 @@ flowchart TD
 
 **一次对话，三个时间维度**：档口管"现在"，账本管"过去"，决策器管"未来"。完整工具编排见 [MCP_INTEGRATION.md](MCP_INTEGRATION.md)。
 
-## 快速开始
+## 快速开始（本地部署，以 WorkBuddy 为例）
 
-**前置条件**：麦当劳中国大陆会员（在 [open.mcd.cn/mcp](https://open.mcd.cn/mcp) 申请 MCP Token）+ 任意支持 MCP 的客户端（WorkBuddy / Cherry Studio / Cursor 等）
+**前置条件**
+- 麦当劳中国大陆会员，并在 [open.mcd.cn/mcp](https://open.mcd.cn/mcp) 申请到 **MCP Token**（本 Skill 的全部数据都来自这个官方接口）
+- 安装 [WorkBuddy](https://www.workbuddy.cn)（也兼容 Cherry Studio / Cursor 等任意支持 MCP 的客户端）
 
-1. 配置 MCP（Token 从环境变量注入，勿硬编码）：
+### 1. 克隆仓库
+```bash
+git clone https://github.com/d-ouyang/mcd-worth-it.git
+cd mcd-worth-it
+```
+
+### 2. 配置 MCP Token（环境变量，勿硬编码）
+```bash
+export MCD_MCP_TOKEN="你的token"
+```
+> macOS 可写入 `~/.zshrc` 永久生效；Windows 在「系统环境变量」里添加。WorkBuddy 启动时会读取该变量，**Token 永远不进仓库**。
+
+### 3. 用 WorkBuddy 加载这个 Skill
+打开 WorkBuddy，把**克隆下来的 `mcd-worth-it` 文件夹作为工作目录**——WorkBuddy 会自动识别目录里的 `SKILL.md`。
+> 若未自动加载，进入 WorkBuddy 的技能设置手动指向该 `SKILL.md` 即可。Skill 的全部相对路径（`data/memory.json`、`data/ledger.json` 等）都以这个目录为根，账本与偏好只存本地、不上传。
+
+### 4. 连接 mcd-mcp
+在 WorkBuddy 的 MCP 设置里添加 mcd-mcp（类型 `streamablehttp`，地址 `https://mcp.mcd.cn`，请求头 `Authorization: Bearer ${MCD_MCP_TOKEN}`），或直接编辑 `~/.workbuddy/mcp.json`：
 ```json
 {
   "mcpServers": {
@@ -135,8 +154,23 @@ flowchart TD
   }
 }
 ```
-2. 把本仓库放入你的 AI 客户端工作目录，加载 [SKILL.md](SKILL.md)；`cp data/profile.example.json data/profile.json` 填入通勤时间（可选，用于预约自取与外送）
-3. 第一句话随便挑一句："中午吃啥" / "麦金卡值不值" / "积分能换啥"
+保存后回到对话，WorkBuddy 提示 mcd-mcp 已连接。
+
+### 5. 初始化本地记忆（可选但推荐）
+```bash
+cp data/profile.example.json data/profile.json
+```
+编辑填入通勤时间、配送地址——用于"预约自取"和"外送值不值"判断。
+
+### 6. 开聊——任选一句触发
+- **"中午吃啥"** → 档口感知 + 带账推荐（高频主线）
+- **"麦金卡值不值"** → 办卡决策器（杀手锏）
+- **"积分能换啥"** → 积分兑换性价比账
+- **"订个主题派对"** → 低频高值 6 步链
+
+下单、随单购、领券等写操作前 Skill 会逐项列出金额并等你确认，绝不静默消费。完整工具编排与安全红线见 [MCP_INTEGRATION.md](MCP_INTEGRATION.md) 与 [SKILL.md](SKILL.md)。
+
+> 其他客户端（Cherry Studio / Cursor 等）配置 MCP 的方式相同：填同样的 `mcd-mcp` 地址与 Token，再把 `SKILL.md` 放入其 skill 目录即可。
 
 ## 目标用户
 
